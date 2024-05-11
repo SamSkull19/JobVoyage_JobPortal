@@ -15,7 +15,7 @@ import '../App.css'
 
 const Slider = () => {
     return (
-        <div className='roboto mt-2'>
+        <div className='roboto'>
 
             <Swiper
                 modules={[Navigation, Pagination, A11y, Autoplay, EffectFade]}
