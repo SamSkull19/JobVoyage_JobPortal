@@ -1,13 +1,24 @@
 import PropTypes from 'prop-types';
+import { useContext } from 'react';
+import { AuthContext } from '../AuthProvider/AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 const JobList = ({ job }) => {
     const { _id, jobBanner, jobTitle, jobPostingDate, applicationDeadline, salaryRange } = job;
 
-    // const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
 
-    // const handleCraftDetail = () => {
-    //     navigate(`/craftItemsDetail/${loadAllCraft._id}`);
-    // }
+    const navigate = useNavigate();
+
+    const handleJobDetail = () => {
+        if(user){
+            navigate(`/allJobs`);
+            // navigate(`/craftItemsDetail/${loadAllCraft._id}`);
+        }
+        else{
+            navigate('/login');
+        }
+    }
 
     return (
 
@@ -38,7 +49,7 @@ const JobList = ({ job }) => {
                 {salaryRange}
             </td>
             <th>
-                <button className="btn btn-active btn-ghost btn-sm">View Details</button>
+                <button onClick={handleJobDetail} className="btn btn-active btn-ghost btn-sm">View Details</button>
             </th>
         </tr>
 

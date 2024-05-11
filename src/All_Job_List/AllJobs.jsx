@@ -39,7 +39,9 @@ const AllJobs = () => {
         <div className="max-w-[1170px] mx-auto mt-10">
             <div className="overflow-x-auto">
 
-                <input type="text" placeholder="Search by Job Title" value={searchQuery} onChange={handleSearchChange} className="input input-bordered mb-4 bg-lime-200 w-[500px]" />
+                <div className="flex items-center justify-center">
+                    <input type="text" placeholder="Search by Job Title" value={searchQuery} onChange={handleSearchChange} className="input input-bordered mb-4 bg-lime-200 w-[350px]" />
+                </div>
 
 
                 <table className="table bg-[#244034]">
