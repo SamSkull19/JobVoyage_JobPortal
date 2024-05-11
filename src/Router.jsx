@@ -6,6 +6,7 @@ import Login from "./UserAuth/Login";
 import Register from "./UserAuth/Register";
 import ErrorPage from "./ErrorPage";
 import AllJobs from "./All_Job_List/AllJobs";
+import Blog from "./Blog/Blog";
 
 const router = createBrowserRouter([
     {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
         {
           path: "/allJobs",
           element: <AllJobs></AllJobs>
+        },
+        {
+          path: "/blog",
+          element: <Blog></Blog>
         },
     ]
     },

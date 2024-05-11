@@ -1,5 +1,6 @@
 import Slider from "./Slider";
 import banner from '../assets/banner.jpg';
+import JobByCategory from "../JobByCategory/JobByCategory";
 
 const HomePage = () => {
     return (
@@ -12,6 +13,9 @@ const HomePage = () => {
                     </div>
                     <div className='h-[50px]'></div>
                 </div>
+            </div>
+            <div className="max-w-[1170px] mx-auto pt-5">
+                <JobByCategory></JobByCategory>
             </div>
         </div>
     );
