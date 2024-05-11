@@ -19,7 +19,7 @@ function App() {
       <Outlet></Outlet>
 
 
-      <div className="bg-stone-400 bg-opacity-50">
+      <div className="bg-[#244034]">
         <Footer></Footer>
       </div>
     </>
