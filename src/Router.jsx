@@ -5,6 +5,7 @@ import "./index.css";
 import Login from "./UserAuth/Login";
 import Register from "./UserAuth/Register";
 import ErrorPage from "./ErrorPage";
+import AllJobs from "./All_Job_List/AllJobs";
 
 const router = createBrowserRouter([
     {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
         {
           path: "/register",
           element: <Register></Register>
+        },
+        {
+          path: "/allJobs",
+          element: <AllJobs></AllJobs>
         },
     ]
     },
