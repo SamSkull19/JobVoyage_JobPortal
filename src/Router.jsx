@@ -7,6 +7,8 @@ import Register from "./UserAuth/Register";
 import ErrorPage from "./ErrorPage";
 import AllJobs from "./All_Job_List/AllJobs";
 import Blog from "./Blog/Blog";
+import JobDetails from "./JobDetails/JobDetails";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
 
 const router = createBrowserRouter([
     {
@@ -34,6 +36,11 @@ const router = createBrowserRouter([
         {
           path: "/blog",
           element: <Blog></Blog>
+        },
+        {
+          path: "/jobDetails/:id",
+          element: <PrivateRoute><JobDetails></JobDetails></PrivateRoute>
+  
         },
     ]
     },

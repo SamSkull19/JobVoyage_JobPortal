@@ -1,19 +1,18 @@
 import PropTypes from 'prop-types';
 import { useContext } from 'react';
 import { AuthContext } from '../AuthProvider/AuthProvider';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 const JobBySingleCategory = ({ job }) => {
     const { _id, jobBanner, jobTitle, jobPostingDate, applicationDeadline, salaryRange, jobApplicantsNumber, userName, jobCategory } = job;
 
-    // const location = useLocation();
+    const location = useLocation();
     const { user } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
     const handleJobDetail = () => {
         if(user){
-            navigate(`/allJobs`);
-            // navigate(`/craftItemsDetail/${loadAllCraft._id}`);
+            navigate(location?.state ? location.state : `/jobDetails/${job._id}`);
         }
         else{
             navigate('/login');

@@ -4,7 +4,7 @@ import { useState } from "react";
 const JobByCategory = () => {
 
     const { isPending, error, data: jobs } = useQuery({
-        queryKey: ['repoData'],
+        queryKey: ['jobs'],
         queryFn: () =>
             fetch('http://localhost:5000/jobLists').then((res) =>
                 res.json(),

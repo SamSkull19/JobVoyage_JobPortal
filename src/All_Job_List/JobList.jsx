@@ -12,8 +12,7 @@ const JobList = ({ job }) => {
 
     const handleJobDetail = () => {
         if(user){
-            navigate(`/allJobs`);
-            // navigate(`/craftItemsDetail/${loadAllCraft._id}`);
+            navigate(location?.state ? location.state : `/jobDetails/${job._id}`);
         }
         else{
             navigate('/login');
