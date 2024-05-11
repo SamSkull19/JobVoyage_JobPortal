@@ -106,7 +106,7 @@ const Register = () => {
                         <input type="password" name="password" className="grow" placeholder="Password" required />
                     </label>
 
-                    <p className="mb-5 text-white">Already have account? <Link to='/login' className="text-xs bg-slate-400 py-2 px-4 ml-2 rounded-xl text-black font-medium">Login</Link></p>
+                    <p className="mb-5 text-white">Already have account? <Link to='/login' className="text-xs bg-lime-950 py-2 px-4 ml-2 rounded-xl font-medium">Login</Link></p>
 
                     <div className="flex items-center mb-3">
                         <input type="checkbox" name="terms" id="terms" />

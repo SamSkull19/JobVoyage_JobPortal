@@ -140,8 +140,8 @@ const Login = () => {
                     <input className="btn btn-active w-full text-lg" type="submit" value="Login" />
 
                     <div className="flex justify-between items-center mt-5">
-                        <p className="text-sm  p-2 rounded-xl text-white font-medium"><Link to='/register'>Register Now</Link></p>
-                        <p className="text-sm p-2 rounded-xl text-white font-medium"><Link>Forget Password</Link></p>
+                        <p className="text-xs  p-2 rounded-xl text-white font-medium bg-lime-950"><Link to='/register'>Register Now</Link></p>
+                        <p className="text-xs p-2 rounded-xl text-white font-medium bg-lime-950"><Link>Forget Password</Link></p>
                     </div>
 
                 </form>

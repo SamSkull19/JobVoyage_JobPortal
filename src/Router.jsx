@@ -4,11 +4,13 @@ import App from "./App";
 import "./index.css";
 import Login from "./UserAuth/Login";
 import Register from "./UserAuth/Register";
+import ErrorPage from "./ErrorPage";
 
 const router = createBrowserRouter([
     {
       path: "/",
       element: <App></App>,
+      errorElement: <ErrorPage></ErrorPage>,
       children: [
         {
           path: "/",
