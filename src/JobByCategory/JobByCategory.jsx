@@ -26,6 +26,8 @@ const JobByCategory = () => {
 
     const filteredJobs = currentCategory === 'All' ? jobs : jobs.filter(job => job.jobCategory === currentCategory);
 
+
+
     return (
         <div>
 

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import { ToastContainer, toast } from 'react-toastify';
@@ -19,6 +19,8 @@ const JobDetails = () => {
 
     const { displayName, email } = user;
 
+    const [jobsData, setJobsData] = useState(jobs);
+
     console.log(user);
 
     const { id } = useParams();
@@ -31,7 +33,7 @@ const JobDetails = () => {
         return <p>Error</p>
     }
 
-    const jobDetail = jobs.find(job => job._id === id);
+    const jobDetail = jobsData.find(jobsData => jobsData._id === id);
 
     console.log(jobDetail);
 
@@ -50,10 +52,11 @@ const JobDetails = () => {
         const userName = form.uName.value;
         const userEmail = form.uEmail.value;
         const resumeLink = form.resumeLink.value;
+        const jobId = id;
 
 
 
-        const jobApply = { userName, userEmail, resumeLink }
+        const jobApply = { userName, userEmail, resumeLink, jobId }
 
         console.log(jobApply);
 
@@ -68,6 +71,13 @@ const JobDetails = () => {
             .then(data => {
                 console.log(data);
                 if (data.insertedId) {
+                    const updatedJobs = jobs.map(job => {
+                        if (job._id === jobId) {
+                            return { ...job, jobApplicantsNumber: job.jobApplicantsNumber + 1 };
+                        }
+                        return job;
+                    });
+                    setJobsData(updatedJobs);
                     toast("Job Application Successful");
                     event.target.reset();
                 }
@@ -137,7 +147,7 @@ const JobDetails = () => {
 
                                                 <div>
                                                     <label className="text-black dark:text-gray-200">Resume Link : </label>
-                                                    <input type="text" id="resume_link" name="resumeLink" placeholder="Enter Resume Link" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" />
+                                                    <input type="text" id="resume_link" name="resumeLink" placeholder="Enter Resume Link" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" required/>
                                                 </div>
 
 
