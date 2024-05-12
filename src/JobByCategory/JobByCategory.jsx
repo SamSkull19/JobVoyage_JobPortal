@@ -31,7 +31,7 @@ const JobByCategory = () => {
     return (
         <div>
 
-            <div className="mt-16 roboto mb-20">
+            <div className="mt-20 roboto mb-20">
                 <h2 className="mb-6 text-4xl text-center font-extrabold">Job By Category</h2>
                 
                 <div className="flex justify-center space-x-4 mb-8">
@@ -48,7 +48,7 @@ const JobByCategory = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {
-                        filteredJobs.slice(0,9).map(job => <JobBySingleCategory key={jobs.id} job={job}></JobBySingleCategory>)
+                        filteredJobs.slice(0,6).map(job => <JobBySingleCategory key={jobs.id} job={job}></JobBySingleCategory>)
                     }
                 </div>
             </div>
