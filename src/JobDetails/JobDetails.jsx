@@ -44,6 +44,8 @@ const JobDetails = () => {
     const { _id, jobBanner, jobTitle, jobPostingDate, applicationDeadline, salaryRange, jobDescription, jobApplicantsNumber, userName, jobCategory } = jobDetail;
 
 
+
+
     const handleJobApply = event => {
         event.preventDefault();
 
@@ -54,7 +56,17 @@ const JobDetails = () => {
         const resumeLink = form.resumeLink.value;
         const jobId = id;
 
+        const currentDate = Date.now();
+        const deadlineDate = new Date(applicationDeadline);
 
+        const isDeadlinePassed = currentDate > deadlineDate;
+
+        console.log(currentDate, deadlineDate);
+
+        if (isDeadlinePassed) {
+            toast.error("Application deadline has passed");
+            return;
+        }
 
         const jobApply = { userName, userEmail, resumeLink, jobId }
 
@@ -147,7 +159,7 @@ const JobDetails = () => {
 
                                                 <div>
                                                     <label className="text-black dark:text-gray-200">Resume Link : </label>
-                                                    <input type="text" id="resume_link" name="resumeLink" placeholder="Enter Resume Link" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" required/>
+                                                    <input type="text" id="resume_link" name="resumeLink" placeholder="Enter Resume Link" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" required />
                                                 </div>
 
 
