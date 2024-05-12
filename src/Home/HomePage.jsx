@@ -1,6 +1,7 @@
 import Slider from "./Slider";
 import banner from '../assets/banner.jpg';
 import JobByCategory from "../JobByCategory/JobByCategory";
+import UserReview from "./UserReview";
 
 const HomePage = () => {
     return (
@@ -15,6 +16,7 @@ const HomePage = () => {
                 </div>
             </div>
             <div className="max-w-[1170px] mx-auto pt-5">
+                <UserReview></UserReview>
                 <JobByCategory></JobByCategory>
             </div>
         </div>
