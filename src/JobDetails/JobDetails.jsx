@@ -1,5 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
+import { useContext } from "react";
 import { useParams } from "react-router-dom";
+import { AuthContext } from "../AuthProvider/AuthProvider";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const JobDetails = () => {
     const { isPending, error, data: jobs } = useQuery({
@@ -9,6 +13,13 @@ const JobDetails = () => {
                 res.json(),
             ),
     })
+
+
+    const { user } = useContext(AuthContext);
+
+    const { displayName, email } = user;
+
+    console.log(user);
 
     const { id } = useParams();
 
@@ -29,6 +40,40 @@ const JobDetails = () => {
     }
 
     const { _id, jobBanner, jobTitle, jobPostingDate, applicationDeadline, salaryRange, jobDescription, jobApplicantsNumber, userName, jobCategory } = jobDetail;
+
+
+    const handleJobApply = event => {
+        event.preventDefault();
+
+        const form = event.target;
+
+        const userName = form.uName.value;
+        const userEmail = form.uEmail.value;
+        const resumeLink = form.resumeLink.value;
+
+
+
+        const jobApply = { userName, userEmail, resumeLink }
+
+        console.log(jobApply);
+
+        fetch('http://localhost:5000/jobApplication', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(jobApply)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.insertedId) {
+                    toast("Job Application Successful");
+                    event.target.reset();
+                }
+            })
+    }
+
 
     return (
         <div className="max-w-[1170px] mx-auto mt-10">
@@ -64,7 +109,56 @@ const JobDetails = () => {
                                 <h1 className="text-xl md:text-2xl font-semibold  mb-3">Job Detail :</h1>
                                 <h3 className='text-xl md:text-xl font-semibold '>{jobDescription}</h3>
                             </div>
-                            <button className="btn bg-cyan-200 text-gray-800 mt-5">Apply Now !</button>
+
+                            <div>
+                                <button className="btn bg-cyan-200 text-gray-800 mt-5" onClick={() => document.getElementById('my_modal_1').showModal()}>Apply Now !</button>
+                                <dialog id="my_modal_1" className="modal">
+                                    <div className="modal-box bg-lime-200">
+
+                                        <h3 className="font-bold text-xl text-center">Apply For {jobTitle}</h3>
+
+                                        <form onSubmit={handleJobApply}>
+                                            <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-1 text-lg">
+
+
+                                                <div>
+                                                    <label className="text-black dark:text-gray-200">Your Name : </label>
+                                                    <input type="text" id="name" name="uName" placeholder="Enter Your Name" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" defaultValue={displayName} />
+                                                </div>
+
+
+
+                                                <div>
+                                                    <label className="text-black dark:text-gray-200">Email : </label>
+                                                    <input type="email" id="email" name="uEmail" placeholder="Enter Your Email" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" defaultValue={email} />
+                                                </div>
+
+
+
+                                                <div>
+                                                    <label className="text-black dark:text-gray-200">Resume Link : </label>
+                                                    <input type="text" id="resume_link" name="resumeLink" placeholder="Enter Resume Link" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" />
+                                                </div>
+
+
+
+                                            </div>
+
+                                            <div className="flex justify-center mt-10 py-5">
+                                                <button className="w-1/2 py-3 leading-5 text-black transition-colors duration-200 transform bg-slate-200 rounded-md hover:bg-gray-500 hover:text-white focus:outline-none focus:bg-gray-600 text-lg font-medium">Submit</button>
+                                            </div>
+                                        </form>
+
+                                        <div className="modal-action">
+                                            <form method="dialog">
+                                                <button className="btn">Close</button>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </dialog>
+                            </div>
+
                         </div>
                     </div>
 
@@ -73,8 +167,10 @@ const JobDetails = () => {
                     </div>
 
 
+
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 };
