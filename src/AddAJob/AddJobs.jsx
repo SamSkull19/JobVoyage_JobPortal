@@ -1,11 +1,62 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { AuthContext } from "../AuthProvider/AuthProvider";
+
+import Swal from 'sweetalert2'
 
 const AddJobs = () => {
     const [postDate, setPostDate] = useState(new Date());
     const [deadlineDate, setDeadlineDate] = useState(new Date());
+
+    const { user } = useContext(AuthContext);
+
+    const { displayName, email } = user;
+
+    const handleAddJobs = event => {
+        event.preventDefault();
+
+        const form = event.target;
+
+        const userName = form.username.value;
+        const userEmail = form.emailAddress.value;
+        const jobTitle = form.jobTitle.value;
+        const jobCategory = form.jobCategory.value;
+        const jobDescription = form.jobDescription.value;
+        const salaryRange = form.salaryRange.value;
+        const jobBanner = form.bannerLink.value;
+        const jobApplicantsNumber = form.jobApplicantsNumber.value;
+        const jobPostingDate = form.postingDate.value;
+        const applicationDeadline = form.applicationDeadline.value;
+
+
+        const newJob = { userName, userEmail, jobTitle, jobCategory, jobDescription, salaryRange, jobBanner, jobApplicantsNumber, jobPostingDate, applicationDeadline }
+
+        console.log(newJob);
+        
+        fetch('http://localhost:5000/jobLists', {
+            method: 'POST',
+            headers: {
+                'content-type' : 'application/json'
+            },
+            body: JSON.stringify(newJob)
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            if(data.insertedId){
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Job Posted Successfully',
+                    icon: 'success',
+                    confirmButtonText: 'Cool'
+                  })
+                  event.target.reset();
+            }
+        })
+
+    }
 
     return (
         <div>
@@ -13,17 +64,17 @@ const AddJobs = () => {
                 <section className="max-w-4xl p-6 mx-auto bg-[#244034] rounded-md shadow-md dark:bg-gray-800 my-20">
                     <h1 className="text-3xl font-bold text-white text-center py-8">Post Jobs</h1>
 
-                    <form>
+                    <form onSubmit={handleAddJobs}>
                         <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2 text-lg">
 
                             <div>
                                 <label className="text-white dark:text-gray-200">User Name :</label>
-                                <input type="text" id="username" name="username" placeholder="Enter Your Name" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" />
+                                <input type="text" id="username" name="username" placeholder="Enter Your Name" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" defaultValue={displayName} disabled />
                             </div>
 
                             <div>
                                 <label className="text-white dark:text-gray-200">Email Address : </label>
-                                <input type="email" id="emailAddress" name="emailAddress" placeholder="Enter Your Email" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" />
+                                <input type="email" id="emailAddress" name="emailAddress" placeholder="Enter Your Email" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" defaultValue={email} disabled />
                             </div>
 
                             <div>

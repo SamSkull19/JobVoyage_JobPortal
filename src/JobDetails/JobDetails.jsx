@@ -41,7 +41,7 @@ const JobDetails = () => {
         return <div>Details not found.</div>;
     }
 
-    const { _id, jobBanner, jobTitle, jobPostingDate, applicationDeadline, salaryRange, jobDescription, jobApplicantsNumber, userName, jobCategory } = jobDetail;
+    const { _id, jobBanner, jobTitle, jobPostingDate, applicationDeadline, salaryRange, jobDescription, jobApplicantsNumber, userName, jobCategory, userEmail } = jobDetail;
 
 
 
@@ -52,7 +52,7 @@ const JobDetails = () => {
         const form = event.target;
 
         const userName = form.uName.value;
-        const userEmail = form.uEmail.value;
+        const userApplyEmail = form.uEmail.value;
         const resumeLink = form.resumeLink.value;
         const jobId = id;
 
@@ -65,6 +65,13 @@ const JobDetails = () => {
 
         if (isDeadlinePassed) {
             toast.error("Application deadline has passed");
+            return;
+        }
+
+        console.log(email , userEmail);
+        
+        if (userApplyEmail === userEmail) {
+            toast.error("You Cannot apply your own Job");
             return;
         }
 
