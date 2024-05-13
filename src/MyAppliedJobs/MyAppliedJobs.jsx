@@ -1,7 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../AuthProvider/AuthProvider";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import MyAppliedJob from "./MyAppliedJob";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
 
 const MyAppliedJobs = () => {
 
@@ -32,7 +34,7 @@ const MyAppliedJobs = () => {
     useEffect(() => {
         setFilterMyJobs(myAppliedJob);
     }, [myAppliedJob]);
-    
+
 
     useEffect(() => {
         if (jobs && jobApplication) {
@@ -45,32 +47,56 @@ const MyAppliedJobs = () => {
     console.log(myAppliedJob);
 
     const handleJobCategory = filter => {
-        if(filter === 'all'){
+        if (filter === 'all') {
             setFilterMyJobs(myAppliedJob);
         }
 
-        else if(filter === 'partTime'){
+        else if (filter === 'partTime') {
             const myNewJob = myAppliedJob.filter(job => job.jobCategory === 'Part-Time');
             setFilterMyJobs(myNewJob);
         }
-        
-        else if(filter === 'remote'){
+
+        else if (filter === 'remote') {
             const myNewJob = myAppliedJob.filter(job => job.jobCategory === 'Remote');
             setFilterMyJobs(myNewJob);
         }
-        
-        else if(filter === 'hybrid'){
+
+        else if (filter === 'hybrid') {
             const myNewJob = myAppliedJob.filter(job => job.jobCategory === 'Hybrid');
             setFilterMyJobs(myNewJob);
         }
 
-        else if(filter === 'onSite'){
+        else if (filter === 'onSite') {
             const myNewJob = myAppliedJob.filter(job => job.jobCategory === 'On Site');
             setFilterMyJobs(myNewJob);
         }
     }
 
 
+    const downloadPDF = () => {
+        const doc = new jsPDF();
+        const tableRows = [];
+        filterMyJobs.forEach(job => {
+            const rowData = [
+                job.jobTitle,
+                job.jobPostingDate,
+                job.applicationDeadline,
+                job.salaryRange,
+                jobApplication.find(appliedJob => appliedJob.jobId === job._id).userName,
+                jobApplication.find(appliedJob => appliedJob.jobId === job._id).userEmail,
+                jobApplication.find(appliedJob => appliedJob.jobId === job._id).resumeLink
+            ];
+            tableRows.push(rowData);
+        });
+        doc.autoTable({
+            head: [['Job Title', 'Posting Date', 'Deadline', 'Salary Range', 'Your Name', 'Your Email', 'Resume Link']],
+            body: tableRows,
+        });
+        doc.save("Applied_Jobs_Summary.pdf");
+    };
+
+
+    const tableRef = useRef(null)
 
 
     if (isPending) {
@@ -88,28 +114,28 @@ const MyAppliedJobs = () => {
     return (
         <div>
             <div className="max-w-[1170px] mx-auto my-16">
-            
 
-            <div className="flex justify-center items-center mb-10">
-                <div className="dropdown">
-                    <div tabIndex={0} role="button" className="btn m-1 bg-[#244034] text-white text-base px-11">Job Category Filter</div>
-                    <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow text-base rounded-box w-60 bg-[#244034] bg-opacity-90 text-white">
-                        <li onClick={ () => handleJobCategory('all') }><a>All</a></li>
 
-                        <li onClick={ () => handleJobCategory('partTime') }><a>Part-Time</a></li>
+                <div className="flex justify-center items-center mb-10">
+                    <div className="dropdown">
+                        <div tabIndex={0} role="button" className="btn m-1 bg-[#244034] text-white text-base px-11">Job Category Filter</div>
+                        <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow text-base rounded-box w-60 bg-[#244034] bg-opacity-90 text-white">
+                            <li onClick={() => handleJobCategory('all')}><a>All</a></li>
 
-                        <li onClick={ () => handleJobCategory('remote') }><a>Remote</a></li>
+                            <li onClick={() => handleJobCategory('partTime')}><a>Part-Time</a></li>
 
-                        <li onClick={ () => handleJobCategory('hybrid') }><a>Hybrid</a></li>
+                            <li onClick={() => handleJobCategory('remote')}><a>Remote</a></li>
 
-                        <li onClick={ () => handleJobCategory('onSite') }><a>On Site</a></li>
-                    </ul>
+                            <li onClick={() => handleJobCategory('hybrid')}><a>Hybrid</a></li>
+
+                            <li onClick={() => handleJobCategory('onSite')}><a>On Site</a></li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
 
 
 
-            <table className="table bg-[#244034]">
+                <table ref={tableRef} className="table bg-[#244034]">
 
                     <thead>
                         <tr className="bg-[#244034] text-base text-white">
@@ -120,26 +146,30 @@ const MyAppliedJobs = () => {
                             <th>Your Name</th>
                             <th>Your Email</th>
                             <th>Resume Link</th>
-                            
+
                         </tr>
                     </thead>
                     <tbody>
 
                         {
-                            filterMyJobs.map(job => <MyAppliedJob 
-                                key={myAppliedJob._id} 
-                                job={job} 
+                            filterMyJobs.map(job => <MyAppliedJob
+                                key={myAppliedJob._id}
+                                job={job}
                                 jobApplication={jobApplication.find(appliedJobs => appliedJobs.jobId === job._id)} >
-                                </MyAppliedJob>)
+                            </MyAppliedJob>)
                         }
 
 
                     </tbody>
 
                 </table>
-           
-        
-        </div>
+
+                <div className="flex justify-center items-center mt-10">
+                    <button onClick={downloadPDF} className="w-[150px] py-3 transition-colors duration-200 transform bg-[#244034] rounded-md hover:bg-gray-500 text-white focus:outline-none focus:bg-gray-600 text-lg font-medium">Download Page</button>
+                </div>
+
+
+            </div>
         </div>
     );
 };
