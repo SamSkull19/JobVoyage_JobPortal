@@ -51,8 +51,8 @@ const Navbar = () => {
                             {
                                 user && <>
                                     <li><Link to='/'>Applied Jobs</Link></li>
-                                    <li><Link to='/'>Add A Job</Link></li>
-                                    <li><Link to='/'>My Jobs</Link></li>
+                                    <li><Link to='/addJobs'>Add A Job</Link></li>
+                                    <li><Link to='/myAddJobs'>My Jobs</Link></li>
                                 </>
                             }
 
