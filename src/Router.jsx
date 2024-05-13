@@ -12,6 +12,7 @@ import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import MyAddJobs from "./MyJobs/MyAddJobs";
 import AddJobs from "./AddAJob/AddJobs";
 import UpdateMyJobs from "./MyJobs/UpdateMyJobs";
+import MyAppliedJobs from "./MyAppliedJobs/MyAppliedJobs";
 
 const router = createBrowserRouter([
     {
@@ -55,6 +56,11 @@ const router = createBrowserRouter([
         {
           path: "/updateMyJobs/:id",
           element: <PrivateRoute><UpdateMyJobs></UpdateMyJobs></PrivateRoute>
+        },
+
+        {
+          path: "/myAppliedJobs",
+          element: <PrivateRoute><MyAppliedJobs></MyAppliedJobs></PrivateRoute>
         },
     
     ]

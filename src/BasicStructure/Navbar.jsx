@@ -31,9 +31,9 @@ const Navbar = () => {
                             <li><Link to='/blog'>Blogs</Link></li>
                             {
                                 user && <>
-                                    <li><Link to='/'>Applied Jobs</Link></li>
-                                    <li><Link to='/'>Add A Job</Link></li>
-                                    <li><Link to='/'>My Jobs</Link></li>
+                                    <li><Link to='/myAppliedJobs'>Applied Jobs</Link></li>
+                                    <li><Link to='/addJobs'>Add A Job</Link></li>
+                                    <li><Link to='/myAddJobs'>My Jobs</Link></li>
                                 </>
                             }
 
@@ -50,7 +50,7 @@ const Navbar = () => {
                             <li><Link to='/blog'>Blogs</Link></li>
                             {
                                 user && <>
-                                    <li><Link to='/'>Applied Jobs</Link></li>
+                                    <li><Link to='/myAppliedJobs'>Applied Jobs</Link></li>
                                     <li><Link to='/addJobs'>Add A Job</Link></li>
                                     <li><Link to='/myAddJobs'>My Jobs</Link></li>
                                 </>
