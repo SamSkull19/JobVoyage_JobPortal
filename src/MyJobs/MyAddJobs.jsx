@@ -26,6 +26,12 @@ const MyAddJobs = () => {
             setMyJob(myData);
         }
     }, [jobs, user.email]);
+
+    
+    const handleDeleteJobs = id => {
+        const updatedJobs  = myJob.filter(job => job._id !== id);
+        setMyJob(updatedJobs);
+    };
     
     
 
@@ -62,7 +68,7 @@ const MyAddJobs = () => {
                     <tbody>
 
                         {
-                            myJob.map(job => <MyAddJob key={myJob._id} job={job} ></MyAddJob>)
+                            myJob.map(job => <MyAddJob key={myJob._id} job={job} handleDeleteJobs={handleDeleteJobs} ></MyAddJob>)
                         }
 
 
