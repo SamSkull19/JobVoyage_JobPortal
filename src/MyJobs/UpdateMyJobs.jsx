@@ -1,20 +1,50 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { AuthContext } from "../AuthProvider/AuthProvider";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { AuthContext } from "../AuthProvider/AuthProvider";
 
-import Swal from 'sweetalert2'
+const UpdateMyJobs = () => {
+    
+    const { user, loading } = useContext(AuthContext);
+    const [myJob, setMyJob] = useState([]);
 
-const AddJobs = () => {
-    const [postDate, setPostDate] = useState(new Date());
-    const [deadlineDate, setDeadlineDate] = useState(new Date());
+    
 
-    const { user } = useContext(AuthContext);
+    const { isPending, error, data: jobs } = useQuery({
+        queryKey: ['jobs'],
+        queryFn: () =>
+            fetch('http://localhost:5000/jobLists').then((res) =>
+                res.json(),
+            ),
+    })
 
-    const { displayName, email } = user;
 
-    const handleAddJobs = event => {
+    const { displayName, email} = user;
+    const { id } = useParams();
+
+    useEffect(() => {
+        if (jobs) {
+            const myData = jobs.find(job => job._id === id);
+            setMyJob(myData);
+            setPostDate(myData.jobPostingDate);
+            setDeadlineDate(myData.applicationDeadline);
+        }
+    }, [jobs, id]);
+
+
+    const { _id, jobTitle, jobCategory, jobDescription, salaryRange, jobBanner, jobApplicantsNumber } = myJob;
+
+    const [postDate, setPostDate] = useState(null);
+    const [deadlineDate, setDeadlineDate] = useState(null);
+
+    console.log(myJob);
+    
+    const handleUpdateJobs = event => {
         event.preventDefault();
 
         const form = event.target;
@@ -31,24 +61,24 @@ const AddJobs = () => {
         const applicationDeadline = form.applicationDeadline.value;
 
 
-        const newJob = { userName, userEmail, jobTitle, jobCategory, jobDescription, salaryRange, jobBanner, jobApplicantsNumber, jobPostingDate, applicationDeadline }
+        const updateJob = { userName, userEmail, jobTitle, jobCategory, jobDescription, salaryRange, jobBanner, jobApplicantsNumber, jobPostingDate, applicationDeadline }
 
-        console.log(newJob);
+        console.log(updateJob);
         
-        fetch('http://localhost:5000/jobLists', {
-            method: 'POST',
+        fetch(`http://localhost:5000/jobLists/${_id}`, {
+            method: 'PUT',
             headers: {
                 'content-type' : 'application/json'
             },
-            body: JSON.stringify(newJob)
+            body: JSON.stringify(updateJob)
         })
         .then(res => res.json())
         .then(data => {
             console.log(data);
-            if(data.insertedId){
+            if(data.modifiedCount){
                 Swal.fire({
                     title: 'Success!',
-                    text: 'Job Posted Successfully',
+                    text: 'Job Updated Successfully',
                     icon: 'success',
                     confirmButtonText: 'Cool'
                   })
@@ -58,13 +88,27 @@ const AddJobs = () => {
 
     }
 
+    if (isPending) {
+        return <div className="flex justify-center items-center"><span className="loading loading-dots loading-lg"></span></div>;
+    }
+
+    if (error) {
+        return <p>Error</p>
+    }
+
+
+    if (loading) {
+        return <div className="flex justify-center items-center"><span className="loading loading-spinner loading-lg"></span></div>
+    }
+
+
     return (
         <div>
             <div>
                 <section className="max-w-4xl p-6 mx-auto bg-[#244034] rounded-md shadow-md dark:bg-gray-800 my-20">
                     <h1 className="text-3xl font-bold text-white text-center py-8">Post Jobs</h1>
 
-                    <form onSubmit={handleAddJobs}>
+                    <form onSubmit={handleUpdateJobs}>
                         <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2 text-lg">
 
                             <div>
@@ -79,13 +123,13 @@ const AddJobs = () => {
 
                             <div>
                                 <label className="text-white dark:text-gray-200">Job Title : </label>
-                                <input type="text" id="jobTitle" name="jobTitle" placeholder="Enter Job Title" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" />
+                                <input type="text" id="jobTitle" name="jobTitle" placeholder="Enter Job Title" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" defaultValue={jobTitle}/>
                             </div>
 
 
                             <div>
                                 <label className="text-white dark:text-gray-200">Job Category : </label>
-                                <select id="jobCategory" name="jobCategory" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+                                <select id="jobCategory" name="jobCategory" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" defaultValue={jobCategory}>
                                     <option value="" disabled selected>Select Job Category</option>
                                     <option>Remote</option>
                                     <option>Part-Time</option>
@@ -97,23 +141,23 @@ const AddJobs = () => {
 
                             <div>
                                 <label className="text-white dark:text-gray-200">Job Description : </label>
-                                <input type="text" id="jobDescription" name="jobDescription" placeholder="Enter Short Job Description" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" />
+                                <input type="text" id="jobDescription" name="jobDescription" placeholder="Enter Short Job Description" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" defaultValue={jobDescription}/>
                             </div>
 
                             <div>
                                 <label className="text-white dark:text-gray-200">Salary Range : </label>
-                                <input type="text" id="salaryRange" name="salaryRange" placeholder="Enter Salary Range (Ex. $100 - $500 per month) " className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" />
+                                <input type="text" id="salaryRange" name="salaryRange" placeholder="Enter Salary Range (Ex. $100 - $500 per month) " className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" defaultValue={salaryRange}/>
                             </div>
 
 
                             <div>
                                 <label className="text-white dark:text-gray-200">Job Banner Link : </label>
-                                <input type="text" id="bannerLink" name="bannerLink" placeholder="Enter Banner Link" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" />
+                                <input type="text" id="bannerLink" name="bannerLink" placeholder="Enter Banner Link" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" defaultValue={jobBanner}/>
                             </div>
 
                             <div>
                                 <label className="text-white dark:text-gray-200">Applicants Number : </label>
-                                <input type="number" id="jobApplicantsNumber" name="jobApplicantsNumber" placeholder="Enter Processing Time (In Days)" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" defaultValue={0} />
+                                <input type="number" id="jobApplicantsNumber" name="jobApplicantsNumber" placeholder="Enter Processing Time (In Days)" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" defaultValue={jobApplicantsNumber} />
                             </div>
 
 
@@ -147,7 +191,7 @@ const AddJobs = () => {
                         </div>
 
                         <div className="flex justify-center mt-10 py-5">
-                            <button className="w-1/2 py-3 leading-5 text-black transition-colors duration-200 transform bg-slate-200 rounded-md hover:bg-gray-500 hover:text-white focus:outline-none focus:bg-gray-600 text-lg font-medium">Post Job</button>
+                            <button className="w-1/2 py-3 leading-5 text-black transition-colors duration-200 transform bg-slate-200 rounded-md hover:bg-gray-500 hover:text-white focus:outline-none focus:bg-gray-600 text-lg font-medium">Update Job</button>
                         </div>
                     </form>
                 </section>
@@ -157,4 +201,4 @@ const AddJobs = () => {
     );
 };
 
-export default AddJobs;
+export default UpdateMyJobs;

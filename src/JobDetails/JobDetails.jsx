@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import { ToastContainer, toast } from 'react-toastify';
@@ -15,15 +15,23 @@ const JobDetails = () => {
     })
 
 
-    const { user } = useContext(AuthContext);
+    const { user, loading } = useContext(AuthContext);
 
     const { displayName, email } = user;
 
     const [jobsData, setJobsData] = useState(jobs);
 
+    useEffect(() => {
+        setJobsData(jobs);
+    }, [jobs]);
+
     console.log(user);
 
     const { id } = useParams();
+
+    if (loading) {
+        return <div className="flex justify-center items-center"><span className="loading loading-spinner loading-lg"></span></div>
+    }
 
     if (isPending) {
         return <div className="flex justify-center items-center"><span className="loading loading-dots loading-lg"></span></div>;
@@ -33,7 +41,7 @@ const JobDetails = () => {
         return <p>Error</p>
     }
 
-    const jobDetail = jobsData.find(jobsData => jobsData._id === id);
+    const jobDetail = jobsData && jobsData.find(jobsData => jobsData._id === id);
 
     console.log(jobDetail);
 

@@ -21,7 +21,7 @@ const AllJobs = () => {
     };
 
     if (isPending) {
-        return <span className="loading loading-dots loading-lg"></span>;
+        return <div className="flex justify-center items-center"><span className="loading loading-dots loading-lg"></span></div>;
     }
 
     if (error) {
