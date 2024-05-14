@@ -20,7 +20,7 @@ const MyAppliedJobs = () => {
     const { isPending, error, data: jobs } = useQuery({
         queryKey: ['jobs'],
         queryFn: () =>
-            fetch('http://localhost:5000/jobLists').then((res) =>
+            fetch('https://job-portal-server-6o9iss4ev-sifat-samins-projects.vercel.app/jobLists').then((res) =>
                 res.json(),
             ),
     })
@@ -29,7 +29,7 @@ const MyAppliedJobs = () => {
     const { data: jobApplication } = useQuery({
         queryKey: ['jobApplication'],
         queryFn: () =>
-            fetch('http://localhost:5000/jobApplication', { method: 'GET', credentials: 'include' }).then((res) =>
+            fetch('https://job-portal-server-6o9iss4ev-sifat-samins-projects.vercel.app/jobApplication', { method: 'GET', credentials: 'include' }).then((res) =>
                 res.json(),
             ),
     })

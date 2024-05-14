@@ -35,7 +35,7 @@ const AddJobs = () => {
 
         console.log(newJob);
         
-        fetch('http://localhost:5000/jobLists', {
+        fetch('https://job-portal-server-6o9iss4ev-sifat-samins-projects.vercel.app/jobLists', {
             method: 'POST',
             headers: {
                 'content-type' : 'application/json'
