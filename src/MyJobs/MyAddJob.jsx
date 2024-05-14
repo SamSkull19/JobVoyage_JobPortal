@@ -27,7 +27,7 @@ const MyAddJob = ({ job, handleDeleteJobs }) => {
           .then((result) => {
             if (result.isConfirmed) {
     
-              fetch(`https://job-portal-server-gykfdjoiv-sifat-samins-projects.vercel.app/jobLists/${_id}`, {
+              fetch(`https://job-portal-server-khaki.vercel.app/jobLists/${_id}`, {
                 method: 'DELETE'
               })
                 .then(res => res.json())
