@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const JobDetails = () => {
-    const { isPending, error, data: jobs } = useQuery({
+    const { isPending, data: jobs } = useQuery({
         queryKey: ['jobs'],
         queryFn: () =>
             fetch('https://job-portal-server-khaki.vercel.app/jobLists').then((res) =>
@@ -37,9 +37,6 @@ const JobDetails = () => {
         return <div className="flex justify-center items-center"><span className="loading loading-dots loading-lg"></span></div>;
     }
 
-    if (error) {
-        return <p>Error</p>
-    }
 
     const jobDetail = jobsData && jobsData.find(jobsData => jobsData._id === id);
 

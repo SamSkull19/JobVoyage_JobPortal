@@ -15,7 +15,7 @@ const UpdateMyJobs = () => {
 
     
 
-    const { isPending, error, data: jobs } = useQuery({
+    const { isPending, data: jobs } = useQuery({
         queryKey: ['jobs'],
         queryFn: () =>
             fetch('https://job-portal-server-khaki.vercel.app/jobLists').then((res) =>
@@ -92,9 +92,6 @@ const UpdateMyJobs = () => {
         return <div className="flex justify-center items-center"><span className="loading loading-dots loading-lg"></span></div>;
     }
 
-    if (error) {
-        return <p>Error</p>
-    }
 
 
     if (loading) {

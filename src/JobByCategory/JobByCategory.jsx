@@ -3,10 +3,10 @@ import JobBySingleCategory from "./JobBySingleCategory";
 import { useState } from "react";
 const JobByCategory = () => {
 
-    const { isPending, error, data: jobs } = useQuery({
+    const { isPending, data: jobs } = useQuery({
         queryKey: ['jobs'],
         queryFn: () =>
-            fetch('https://job-portal-server-khaki.vercel.app//jobLists').then((res) =>
+            fetch('https://job-portal-server-khaki.vercel.app/jobLists').then((res) =>
                 res.json(),
             ),
     })
@@ -17,9 +17,6 @@ const JobByCategory = () => {
         return <div className="flex justify-center items-center"><span className="loading loading-dots loading-lg"></span></div> ;
     }
 
-    if (error) {
-        return <p>Error</p>
-    }
 
 
     const categories = ['All', ...new Set(jobs.map(job => job.jobCategory))];
