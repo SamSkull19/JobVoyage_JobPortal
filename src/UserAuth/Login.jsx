@@ -1,4 +1,3 @@
-
 import { FaGoogle } from "react-icons/fa";
 import { FaSquareGithub } from "react-icons/fa6";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -22,6 +21,7 @@ import 'swiper/css/scrollbar';
 import ls1 from '../assets/ls1.jpg';
 import ls2 from '../assets/ls2.jpg';
 import ls3 from '../assets/ls3.jpg';
+// import axios from "axios";
 
 const Login = () => {
 
@@ -38,10 +38,22 @@ const Login = () => {
 
         signInUser(email, password)
             .then(result => {
-                console.log(result.user);
+                const loggedInUser = result.user;
+                console.log(loggedInUser);
+
+                // const user = { email };
+
                 toast('Successfully Logged in');
                 e.target.reset();
-                navigate(location?.state ? location.state : '/');
+
+
+                // axios.post('http://localhost:5000/jwt', user, {withCredentials:true})
+                // .then(res => {
+                //     console.log(res.data);
+                //     if(res.data.success){
+                //         navigate(location?.state ? location.state : '/');
+                //     }
+                // })
             })
 
             .catch(error => {

@@ -1,4 +1,3 @@
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, A11y, Autoplay, EffectFade } from 'swiper/modules';
 
@@ -12,6 +11,7 @@ import s2 from '../assets/s2.jpg';
 import s3 from '../assets/s3.jpg';
 
 import '../App.css'
+import { Link } from 'react-router-dom';
 
 const Slider = () => {
     return (
@@ -40,7 +40,7 @@ const Slider = () => {
                             </h2>
                             <p className='text-lg font-medium text-yellow-100'>Join our team at our headquarters and work on cutting-edge projects in a collaborative environment.</p>
 
-                            <button className="btn btn-outline outline-lime-600 mt-5 text-lime-500">Apply Now !</button>
+                            <button className="btn btn-outline outline-lime-600 mt-5 text-lime-500"><Link to='/allJobs'>Apply Now !</Link></button>
                         </div>
                     </div>
 
@@ -56,7 +56,7 @@ const Slider = () => {
                             </h2>
                             <p className='text-lg font-medium text-yellow-100'>Work remotely from anywhere in the world, crafting engaging content and contributing to our digital marketing efforts.</p>
 
-                            <button className="btn btn-outline outline-lime-600 mt-5 text-lime-500">Apply Now !</button>
+                            <button className="btn btn-outline outline-lime-600 mt-5 text-lime-500"><Link to='/allJobs'>Apply Now !</Link></button>
                         </div>
                     </div>
 
@@ -72,7 +72,7 @@ const Slider = () => {
                             </h2>
                             <p className='text-lg font-medium text-yellow-100'>Enjoy the best of both worlds with a hybrid role, combining remote work flexibility with occasional in-person collaboration at our office.</p>
 
-                            <button className="btn btn-outline outline-lime-600 mt-5 text-lime-500">Apply Now !</button>
+                            <button className="btn btn-outline outline-lime-600 mt-5 text-lime-500"><Link to='/allJobs'>Apply Now !</Link></button>
                         </div>
                     </div>
 
