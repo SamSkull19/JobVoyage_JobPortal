@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 
-const MyAppliedJob = ({ job, jobApplication }) => {
+const MyAppliedJob = ({ job, myApply }) => {
 
 
     const { _id, jobBanner, jobTitle, jobPostingDate, applicationDeadline, salaryRange } = job;
 
-    const { userName, userEmail, resumeLink } = jobApplication;
+    const { userName, userApplyEmail, resumeLink } = myApply;
 
 
 
@@ -42,7 +42,7 @@ const MyAppliedJob = ({ job, jobApplication }) => {
             </td>
 
             <td className='font-bold'>
-                {userEmail}
+                {userApplyEmail}
             </td>
 
             <td className='font-bold'>
@@ -57,7 +57,7 @@ const MyAppliedJob = ({ job, jobApplication }) => {
 
 MyAppliedJob.propTypes = {
     job: PropTypes.object.isRequired,
-    jobApplication: PropTypes.object.isRequired,
+    myApply: PropTypes.object.isRequired,
 
 }
 

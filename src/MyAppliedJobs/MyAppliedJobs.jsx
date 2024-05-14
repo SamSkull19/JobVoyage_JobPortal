@@ -7,12 +7,15 @@ import "jspdf-autotable";
 
 const MyAppliedJobs = () => {
 
-    const { loading } = useContext(AuthContext);
+    const { user, loading } = useContext(AuthContext);
+
+    const [myApply, setMyApply] = useState([]);
 
     const [myAppliedJob, setMyAppliedJob] = useState([]);
 
     const [filterMyJobs, setFilterMyJobs] = useState([]);
-    
+
+
 
     const { isPending, error, data: jobs } = useQuery({
         queryKey: ['jobs'],
@@ -26,7 +29,7 @@ const MyAppliedJobs = () => {
     const { data: jobApplication } = useQuery({
         queryKey: ['jobApplication'],
         queryFn: () =>
-            fetch('http://localhost:5000/jobApplication', {method: 'GET',credentials: 'include'}).then((res) =>
+            fetch('http://localhost:5000/jobApplication', { method: 'GET', credentials: 'include' }).then((res) =>
                 res.json(),
             ),
     })
@@ -38,12 +41,20 @@ const MyAppliedJobs = () => {
 
 
     useEffect(() => {
-        if (jobs && jobApplication) {
-            const jobApplicationId = jobApplication.map(application => application.jobId);
+        if (user && user.email) {
+            const myData = jobApplication?.filter(job => job.userApplyEmail === user.email);
+            setMyApply(myData);
+        }
+    }, [user, jobApplication]);
+
+
+    useEffect(() => {
+        if (jobs && myApply) {
+            const jobApplicationId = myApply.map(application => application.jobId);
             const myData = jobs.filter(job => jobApplicationId.includes(job._id));
             setMyAppliedJob(myData);
         }
-    }, [jobs, jobApplication]);
+    }, [jobs, myApply]);
 
     console.log(myAppliedJob);
 
@@ -112,7 +123,7 @@ const MyAppliedJobs = () => {
     if (loading) {
         return <div className="flex justify-center items-center"><span className="loading loading-spinner loading-lg"></span></div>
     }
-    
+
     return (
         <div>
             <div className="max-w-[1170px] mx-auto my-16">
@@ -157,7 +168,7 @@ const MyAppliedJobs = () => {
                             filterMyJobs.map(job => <MyAppliedJob
                                 key={myAppliedJob._id}
                                 job={job}
-                                jobApplication={jobApplication.find(appliedJobs => appliedJobs.jobId === job._id)} >
+                                myApply={myApply.find(appliedJobs => appliedJobs.jobId === job._id)} >
                             </MyAppliedJob>)
                         }
 
