@@ -83,7 +83,7 @@ const JobDetails = () => {
             return;
         }
 
-        const jobApply = { userName, userEmail, resumeLink, jobId }
+        const jobApply = { userName, userApplyEmail, resumeLink, jobId }
 
         console.log(jobApply);
 

@@ -12,6 +12,7 @@ const MyAppliedJobs = () => {
     const [myAppliedJob, setMyAppliedJob] = useState([]);
 
     const [filterMyJobs, setFilterMyJobs] = useState([]);
+    
 
     const { isPending, error, data: jobs } = useQuery({
         queryKey: ['jobs'],
@@ -25,7 +26,7 @@ const MyAppliedJobs = () => {
     const { data: jobApplication } = useQuery({
         queryKey: ['jobApplication'],
         queryFn: () =>
-            fetch('http://localhost:5000/jobApplication').then((res) =>
+            fetch('http://localhost:5000/jobApplication', {method: 'GET',credentials: 'include'}).then((res) =>
                 res.json(),
             ),
     })
@@ -111,6 +112,7 @@ const MyAppliedJobs = () => {
     if (loading) {
         return <div className="flex justify-center items-center"><span className="loading loading-spinner loading-lg"></span></div>
     }
+    
     return (
         <div>
             <div className="max-w-[1170px] mx-auto my-16">
