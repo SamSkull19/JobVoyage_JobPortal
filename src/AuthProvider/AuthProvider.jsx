@@ -37,7 +37,7 @@ const AuthProvider = ({ children }) => {
             setLoading(false);
             if (currentUser) {
                 
-                axios.post('https://job-portal-server-6o9iss4ev-sifat-samins-projects.vercel.app/jwt', loggedUser, {
+                axios.post('https://job-portal-server-gykfdjoiv-sifat-samins-projects.vercel.app/jwt', loggedUser, {
                     withCredentials:true })
                     .then(res => {
                         console.log('Token Response: ', res.data);
@@ -45,7 +45,7 @@ const AuthProvider = ({ children }) => {
             }
 
             else{
-                axios.post('https://job-portal-server-6o9iss4ev-sifat-samins-projects.vercel.app/logout', loggedUser, {
+                axios.post('https://job-portal-server-gykfdjoiv-sifat-samins-projects.vercel.app/logout', loggedUser, {
                     withCredentials:true })
                     .then(res => {
                         console.log(res.data);

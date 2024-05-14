@@ -8,7 +8,7 @@ const AllJobs = () => {
     const { isPending, error, data: jobs } = useQuery({
         queryKey: ['jobs'],
         queryFn: () =>
-            fetch('https://job-portal-server-6o9iss4ev-sifat-samins-projects.vercel.app/jobLists').then((res) =>
+            fetch('https://job-portal-server-gykfdjoiv-sifat-samins-projects.vercel.app/jobLists').then((res) =>
                 res.json(),
             ),
     })
