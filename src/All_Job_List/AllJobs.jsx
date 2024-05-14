@@ -31,7 +31,7 @@ const AllJobs = () => {
     console.log(jobs);
 
     const filteredJobs = jobs.filter(job =>
-        job.jobTitle.toLowerCase().includes(searchQuery.toLowerCase())
+        job.jobTitle && job.jobTitle.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
 
