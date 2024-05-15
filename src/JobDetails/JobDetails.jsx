@@ -84,7 +84,7 @@ const JobDetails = () => {
 
         console.log(jobApply);
 
-        fetch('https://job-portal-server-6o9iss4ev-sifat-samins-projects.vercel.app/jobLists', {
+        fetch('https://job-portal-server-6o9iss4ev-sifat-samins-projects.vercel.app/jobApplication', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
