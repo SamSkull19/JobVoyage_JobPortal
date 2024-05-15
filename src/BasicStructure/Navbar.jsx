@@ -99,9 +99,9 @@ const Navbar = () => {
 
                                 </div>
                                 :
-                                <div>
+                                <div className="flex items-center">
                                     <button className="btn btn-neutral bg-lime-700 text-sm px-4 font-medium w-20"> <Link to='/login'>Login</Link> </button>
-                                    <button className="btn btn-neutral bg-lime-700 text-sm px-4 font-medium w-20 ml-4"> <Link to='/register'>Register</Link> </button>
+                                    <button className=" btn btn-neutral bg-lime-700 text-sm px-4 font-medium w-20 ml-4"> <Link to='/register'>Register</Link> </button>
                                 </div>
                         }
 
